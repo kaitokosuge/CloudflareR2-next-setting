@@ -3,8 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 
 const {
 	CLOUDFLARE_ACCESS_KEY_ID,
-	CLOUDFLARE_ENDPOINT,
 	CLOUDFLARE_ACCESS_KEY,
+	CLOUDFLARE_ENDPOINT,
 	BUCKET_NAME,
 } = process.env;
 
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
 	const s3Client = new S3Client({
 		region: "auto",
-		endpoint: `https://${CLOUDFLARE_ENDPOINT}.r2.cloudflarestorage.com`,
+		endpoint: CLOUDFLARE_ENDPOINT,
 		credentials: {
 			accessKeyId: CLOUDFLARE_ACCESS_KEY_ID as string,
 			secretAccessKey: CLOUDFLARE_ACCESS_KEY as string,

@@ -30,6 +30,8 @@ export default function UploadForm() {
 			});
 
 			if (response.ok) {
+				const data = await response.json();
+				console.log(data);
 				alert("画像が正常にアップロードされました。");
 			} else {
 				alert("画像のアップロードに失敗しました。");
