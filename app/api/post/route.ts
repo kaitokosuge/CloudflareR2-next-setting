@@ -13,6 +13,9 @@ export async function POST(req: NextRequest) {
 	const userId = formData.get("user_id");
 	const image = formData.get("image") as File;
 
+	if (userId !== process.env.IMAGE_UP_KEY) {
+		return;
+	}
 	const s3Client = new S3Client({
 		region: "auto",
 		endpoint: CLOUDFLARE_ENDPOINT,

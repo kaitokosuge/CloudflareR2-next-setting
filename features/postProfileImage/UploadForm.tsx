@@ -57,7 +57,7 @@ export default function UploadForm() {
 			{imageUpLoad && <>ロード中</>}
 			<form onSubmit={handleSubmit}>
 				<div>
-					<label htmlFor="userId">ユーザーID:</label>
+					<label htmlFor="userId">password:</label>
 					<input
 						type="text"
 						id="userId"
