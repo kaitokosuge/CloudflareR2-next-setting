@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
 import imageCompression from "browser-image-compression";
@@ -6,6 +7,8 @@ export default function UploadForm() {
 	const [userId, setUserId] = useState("");
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imageUpLoad, setImageUpload] = useState(false);
+
+	const [savedImage, setSavedImage] = useState<string>("");
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {
@@ -40,6 +43,7 @@ export default function UploadForm() {
 			if (response.ok) {
 				const data = await response.json();
 				console.log(data);
+				setSavedImage(data);
 				alert("画像が正常にアップロードされました。");
 			} else {
 				alert("画像のアップロードに失敗しました。");
@@ -80,6 +84,16 @@ export default function UploadForm() {
 					アップロード
 				</button>
 			</form>
+			{savedImage && (
+				<div className="w-[35px]">
+					<img
+						style={{ width: "35px" }}
+						src={savedImage}
+						alt="profile image"
+						className="rounded-full"
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
