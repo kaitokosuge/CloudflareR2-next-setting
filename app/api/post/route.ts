@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
 	const command = new PutObjectCommand(uploadImage);
 	await s3Client.send(command);
-	const imageUrl = `${process.env.AVATAR_HOST_URL}/${fileName}`;
+	const imageUrl = `${process.env.HOST_URL}/${fileName}`;
 
 	return NextResponse.json(imageUrl);
 }
