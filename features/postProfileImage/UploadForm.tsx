@@ -1,18 +1,36 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
 import imageCompression from "browser-image-compression";
 
 export default function UploadForm() {
+	//パスワード
 	const [userId, setUserId] = useState("");
+
+	//投稿画像データ
 	const [imageFile, setImageFile] = useState<File | null>(null);
+
+	//ローディング管理
 	const [imageUpLoad, setImageUpload] = useState(false);
 
+	//プレビュー画像データ
+	const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+	//保存された画像のパス
 	const [savedImage, setSavedImage] = useState<string>("");
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files.length > 0) {
+			if (!e.target.files?.[0].type.match("image.*")) {
+				alert("画像データを選択してください");
+			}
 			setImageFile(e.target.files[0]);
+			const reader = new FileReader();
+			reader.readAsDataURL(e.target.files[0]);
+			reader.onload = (e) => {
+				setPreviewImage(e.target?.result as string);
+			};
 		}
 	};
 
@@ -44,6 +62,9 @@ export default function UploadForm() {
 				const data = await response.json();
 				console.log(data);
 				setSavedImage(data);
+				setPreviewImage(null);
+				setImageFile(null);
+				setUserId("");
 				alert("画像が正常にアップロードされました。");
 			} else {
 				alert("画像のアップロードに失敗しました。");
@@ -80,17 +101,23 @@ export default function UploadForm() {
 						required
 					/>
 				</div>
+				{previewImage && (
+					<img
+						src={previewImage}
+						className="block rounded-full bg-black object-contain w-[75px] h-[75px]"
+					/>
+				)}
+
 				<button type="submit" disabled={imageUpLoad}>
 					アップロード
 				</button>
 			</form>
 			{savedImage && (
-				<div className="w-[35px]">
+				<div className="">
 					<img
-						style={{ width: "35px" }}
 						src={savedImage}
 						alt="profile image"
-						className="rounded-full"
+						className="block rounded-full bg-black object-contain w-[35px] h-[35px]"
 					/>
 				</div>
 			)}
